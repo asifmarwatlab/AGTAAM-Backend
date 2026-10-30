@@ -66,3 +66,14 @@ def test_contours_return_geojson_lines():
     assert fc["features"][0]["geometry"]["type"] == "MultiLineString"
     with pytest.raises(ValueError):
         contour_lines(make_hill(), interval=0.001)
+
+
+def test_metres_per_degree_follows_wgs84():
+    from core.raster.crs import metres_per_degree
+    lon0, lat0 = metres_per_degree(0)
+    assert lon0 == pytest.approx(111_319.5, abs=1)        # equator, east-west
+    assert lat0 == pytest.approx(110_574.3, abs=1)        # equator, north-south
+    lon, lat = metres_per_degree(33.5)                    # northern Pakistan
+    assert lat == pytest.approx(110_913, abs=5)
+    assert lon == pytest.approx(92_922, abs=5)
+    assert metres_per_degree(90)[1] == pytest.approx(111_694, abs=2)

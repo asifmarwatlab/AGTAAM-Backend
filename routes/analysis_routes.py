@@ -64,7 +64,7 @@ def outlier_check(layer_id: str, method: Literal["iqr", "zscore"] = "iqr",
 surface_analysis_router = APIRouter(prefix="/surface-analysis", tags=["Analysis · Surface Analysis"])
 
 
-@surface_analysis_router.post("/hillshadeeeeeeeee", response_model=DerivedLayerResult)
+@surface_analysis_router.post("/hillshade", response_model=DerivedLayerResult)
 def hillshade(req: HillshadeRequest):
     return service.hillshade(req.layer_id, req.azimuth, req.altitude, req.z_factor)
 
